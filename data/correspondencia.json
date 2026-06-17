@@ -1,0 +1,393 @@
+{
+  "excecoes": {
+    "AMÍGDALAS": [
+      "Amígdalas",
+      "Tonsilas"
+    ]
+  },
+  "normalizado": {
+    "HIPOFISE": [
+      "Hipófise"
+    ],
+    "ADENOHIPOFISE CELULAS": [
+      "Adenohipófise"
+    ],
+    "NEUROHIPOFISE": [
+      "Neurohipófise"
+    ],
+    "HIPOTALAMO - HIPOFISE": [
+      "Hipotálamo"
+    ],
+    "GLANDULA PINEAL": [
+      "Pineal"
+    ],
+    "CORTISOL": [
+      "Cortisol"
+    ],
+    "ADRENAIS": [
+      "Suprarrenais"
+    ],
+    "ADRENALINA": [
+      "Adrenalina",
+      "Noradrenalina"
+    ],
+    "TIROIDE E PARATIROIDE": [
+      "Tiróide e paratiróide"
+    ],
+    "TIROTSIT": [
+      "Tireócito"
+    ],
+    "ALDOSTERONA": [
+      "Aldosterona"
+    ],
+    "CEREBRO CORTEX CEREBRAL": [
+      "Cérebro córtex cerebral"
+    ],
+    "CEREBRO BASE": [
+      "Cérebro base"
+    ],
+    "CEREBRO LADO DIREITO": [
+      "Hemisfério cerebral direito"
+    ],
+    "CEREBRO LADO ESQUERDO": [
+      "Hemisfério cerebral esquerdo"
+    ],
+    "NEURONIO": [
+      "Neurônio"
+    ],
+    "NEURONIO PIRAMIDAL": [
+      "Neurônio piramidal"
+    ],
+    "SISTEMA NERVOSO AUTONOMO": [
+      "Sistema nervoso autônomo"
+    ],
+    "SISTEMA NERVOSO VEGETATIVO": [
+      "Sistema nervoso vegetativo"
+    ],
+    "SLICE CEREBRAL OBLONG": [
+      "Bulbo cerebral"
+    ],
+    "A SECCAO TRANSVERSAL DA MEDULA ESPINHAL": [
+      "Medula espinhal"
+    ],
+    "SHELL CEREBELAR": [
+      "Córtex cerebelar"
+    ],
+    "NERVOS": [
+      "Nervos"
+    ],
+    "CELULAS NEUROSSENSORIAIS": [
+      "Células neurossensoriais"
+    ],
+    "CORACAO ANTERIOR": [
+      "Coração anterior"
+    ],
+    "CORACAO POSTERIOR": [
+      "Coração posterior"
+    ],
+    "VALVULAS CARDIACAS": [
+      "Válvulas cardíacas"
+    ],
+    "SISTEMA DE CONDUCAO CARDIACO": [
+      "Sistema de condução cardíaco"
+    ],
+    "CARDIOMIOCITOS": [
+      "Cardiomiócitos"
+    ],
+    "ARTERIA": [
+      "Artérias"
+    ],
+    "ARTERIOLAS": [
+      "Arteríolas"
+    ],
+    "CAPILAR": [
+      "Capilares"
+    ],
+    "GRANDES VASOS VENOSOS": [
+      "Grandes vasos venosos"
+    ],
+    "VENULAS": [
+      "Vênulas"
+    ],
+    "VASOS PRINCIPAIS CORPO": [
+      "Vasos principais do corpo"
+    ],
+    "VEIAS SECAO TRANSVERSAL DOS VASOS VENOSOS": [
+      "Veias"
+    ],
+    "VEIAS PERNA DIREITA": [
+      "Veias perna direita"
+    ],
+    "VEIAS PERNA ESQUERDA": [
+      "Veias perna esquerda"
+    ],
+    "PULMAO DIREITO": [
+      "Pulmão direito"
+    ],
+    "PULMAO ESQUERDO": [
+      "Pulmão esquerdo"
+    ],
+    "NARIZ PARANASAIS A DIREITA": [
+      "Seios paranasais direitos"
+    ],
+    "NARIZ PARANASAIS A ESQUERDA": [
+      "Seios paranasais esquerdos"
+    ],
+    "NARIZ MUCOSA NASAL": [
+      "Nariz mucosa nasal"
+    ],
+    "LARINGE SECAO": [
+      "Laringe"
+    ],
+    "TRAQUEIA E BRONQUIOS": [
+      "Traqueia e brônquios"
+    ],
+    "BRONQUIO EPITELIO BRONQUICO": [
+      "Bronquíolos"
+    ],
+    "BRONQUIO TERMINAIS": [
+      "Brônquios terminais"
+    ],
+    "ALVEOLOTSIT": [
+      "Alveolócito"
+    ],
+    "MEDIASTINICOS": [
+      "Mediastino"
+    ],
+    "ESTOMAGO PAREDE": [
+      "Estômago"
+    ],
+    "ESTOMAGO NERVOS": [
+      "Estômago nervos"
+    ],
+    "ESOFAGO TRANSICAO PARA O SEU ESTOMAGO": [
+      "Esôfago"
+    ],
+    "INTESTINO DELGADO PAREDE": [
+      "Intestino delgado"
+    ],
+    "INTESTINO GROSSO": [
+      "Intestino grosso"
+    ],
+    "EPITELIO INTESTINAL": [
+      "Epitélio intestinal"
+    ],
+    "MESENTERIO E INTESTINO GROSSO": [
+      "Mesentério"
+    ],
+    "FIGADO ANTERIOR": [
+      "Fígado"
+    ],
+    "HEPATOCITO": [
+      "Hepatócito"
+    ],
+    "VESICULA BILIAR": [
+      "Vesícula biliar"
+    ],
+    "DUCTO BILIAR INTERLOBULARES": [
+      "Ducto biliar"
+    ],
+    "BOCA MUCOSA ORAL": [
+      "Boca"
+    ],
+    "LINGUA PAPILAS GOSTATIVAS": [
+      "Glândulas salivares"
+    ],
+    "RETO": [
+      "Reto"
+    ],
+    "PANCREAS VISTA ANTERIOR": [
+      "Pâncreas"
+    ],
+    "ILHOTAS DE LANGERHANS": [
+      "Ilhotas de Langerhans"
+    ],
+    "CELULAS B DAS ILHOTAS PANCREATICAS": [
+      "Células beta pancreáticas"
+    ],
+    "INSULINA": [
+      "Insulina"
+    ],
+    "COLESTEROL": [
+      "Colesterol"
+    ],
+    "GLICOGENIO": [
+      "Glicogênio"
+    ],
+    "PANCREATIC ENDOCRINOCYTES": [
+      "Endocrinócitos pancreáticos"
+    ],
+    "CELULAS D DAS ILHOTAS PANCREATICAS": [
+      "Células delta pancreáticas"
+    ],
+    "NODULO LINFATICO": [
+      "Nódulo linfáticos"
+    ],
+    "VASOS E GANGLIOS LINFATICOS DA VIRILHA": [
+      "Vasos e gânglios linfáticos da virilha"
+    ],
+    "VASOS LINFATICOS": [
+      "Vasos Linfáticos"
+    ],
+    "VASOS LINFATICOS MEDIASTINO": [
+      "Vasos linfáticos mediastino"
+    ],
+    "TIMO": [
+      "Timo"
+    ],
+    "MEDULA OSSEA": [
+      "Medula óssea"
+    ],
+    "BACO": [
+      "Baço"
+    ],
+    "RINS E ORGAOS ESPACO RETROPERITONEAL": [
+      "Rins"
+    ],
+    "RIM SECAO LONGITUDINAL RIM DIREITO": [
+      "Rim direito"
+    ],
+    "RIM SECAO LONGITUDINAL RIM ESQUERDO": [
+      "Rim esquerdo"
+    ],
+    "NEPHRON": [
+      "Néfron"
+    ],
+    "GLOMERULOS E ARTERIAS CIRCUNDANTES": [
+      "Glomérulos"
+    ],
+    "VASOS RENAIS": [
+      "Vasos renais",
+      "Veia renal"
+    ],
+    "URETER": [
+      "Uréteres"
+    ],
+    "BEXIGA POSTERIOR MULHER": [
+      "Bexiga"
+    ],
+    "BEXIGA POSTERIOR HOMEM": [
+      "Bexiga"
+    ],
+    "UROEPITELY": [
+      "Uroepitélio"
+    ],
+    "PODOTSIT": [
+      "Podócito"
+    ],
+    "HEMOGLOBINA": [
+      "Hemoglobina"
+    ],
+    "ERITROCITOS": [
+      "Eritrócitos"
+    ],
+    "ERITROBLASTOS": [
+      "Eritroblastos"
+    ],
+    "RETICULOCITOS": [
+      "Reticulócitos"
+    ],
+    "LINFOCITO": [
+      "Linfócito"
+    ],
+    "MONOCITO": [
+      "Monócito"
+    ],
+    "NEUTROFILO": [
+      "Neutrófilo"
+    ],
+    "EOSINOFILO": [
+      "Eosinófilo"
+    ],
+    "BASOFILO": [
+      "Basófilo"
+    ],
+    "TROMBOCITOS": [
+      "Trombócitos"
+    ],
+    "IMUNOGLOBULINA G": [
+      "Imunoglobulina G"
+    ],
+    "COLUNA VERTEBRAL, ANTERIOR": [
+      "Coluna vertebral"
+    ],
+    "COLUNA LOMBAR ANTERIOR": [
+      "Coluna lombar"
+    ],
+    "ESQUELETO FRONTAL": [
+      "Articulações"
+    ],
+    "ESQUELETO POSTERIOR": [
+      "Ossos"
+    ],
+    "MUSCULOS DO CORPO VISTA ANTERIOR": [
+      "Músculos corpo anterior"
+    ],
+    "MUSCULOS DO CORPO VISTA POSTERIOR": [
+      "Músculos corpo posterior"
+    ],
+    "MUSCULOS LISOS": [
+      "Músculos"
+    ],
+    "MANDIBULA A DIREITA": [
+      "Mandíbula direita"
+    ],
+    "MANDIBULA A ESQUERDA": [
+      "Mandíbula esquerda"
+    ],
+    "MAXILAR": [
+      "Maxilar"
+    ],
+    "PELXO LOMBO SABRADO": [
+      "Plexo lombossacral"
+    ],
+    "CORTE TENDAO": [
+      "Tendão"
+    ],
+    "UTERO COLO": [
+      "Colo de útero"
+    ],
+    "UTERO SECAO LONGITUDINAL": [
+      "Útero"
+    ],
+    "PELVIS SECAO HORIZONTAL AO NIVEL DA VAGINA": [
+      "Vagina e vulva"
+    ],
+    "TROMPAS DE FALOPIO A DIREITA SECAO": [
+      "Trompas de falópio direita"
+    ],
+    "TROMPAS DE FALOPIO A ESQUERDA SECAO": [
+      "Trompas de falópio esquerda"
+    ],
+    "UTERINAS EPITELIO": [
+      "Epitélio uterino"
+    ],
+    "OVARIO DIREITO": [
+      "Ovário direito"
+    ],
+    "OVARIO ESQUERDO": [
+      "Ovário esquerdo"
+    ],
+    "PENIS CUT": [
+      "Pénis"
+    ],
+    "PROSTATA": [
+      "Próstata"
+    ],
+    "CANAL DEFERENTE": [
+      "Canais deferentes"
+    ],
+    "VESICULAS SEMINAIS": [
+      "Vesículas seminais"
+    ],
+    "TESTICULO DIREITO": [
+      "Testiculo direito"
+    ],
+    "TESTICULO ESQUERDO": [
+      "Testiculo esquerdo"
+    ],
+    "PELE SECAO": [
+      "Pele"
+    ]
+  }
+}
