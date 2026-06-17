@@ -1,48 +1,75 @@
-"""App Streamlit para geração de documentos a partir de templates .docx."""
+"""Streamlit: comparação antes/depois de planilhas e geração de documento.
+
+Pipeline:
+    1. upload das planilhas 'antes' e 'depois'
+    2. escolha da coluna-chave e das colunas a comparar
+    3. comparação
+    4. geração do documento a partir de um template .docx
+"""
 
 from __future__ import annotations
 
-import io
-from datetime import date
-
 import streamlit as st
-from docxtpl import DocxTemplate
 
-st.set_page_config(page_title="Before / After", page_icon="📄", layout="centered")
+from before_after.comparison import compare
+from before_after.context import build_context
+from before_after.loaders import common_columns, load_spreadsheet
+from before_after.rendering import render
 
-st.title("📄 Gerador de Documentos")
-st.caption("Preencha os dados e gere um documento a partir de um template .docx.")
+st.set_page_config(page_title="Before / After", page_icon="📊", layout="wide")
+st.title("📊 Comparador Antes / Depois")
 
-template_file = st.file_uploader(
-    "Template (.docx com placeholders Jinja, ex: {{ nome }})",
-    type=["docx"],
+# --- 1. Upload ------------------------------------------------------------
+st.subheader("1. Planilhas")
+col_before, col_after = st.columns(2)
+with col_before:
+    file_before = st.file_uploader("Planilha ANTES (.xlsx)", type=["xlsx"], key="before")
+with col_after:
+    file_after = st.file_uploader("Planilha DEPOIS (.xlsx)", type=["xlsx"], key="after")
+
+if not (file_before and file_after):
+    st.info("Envie as duas planilhas para continuar.")
+    st.stop()
+
+df_before = load_spreadsheet(file_before)
+df_after = load_spreadsheet(file_after)
+
+cols = common_columns(df_before, df_after)
+if not cols:
+    st.error("As planilhas não têm colunas em comum.")
+    st.stop()
+
+with st.expander("Pré-visualização"):
+    st.write("**Antes**", df_before.head())
+    st.write("**Depois**", df_after.head())
+
+# --- 2. Configuração ------------------------------------------------------
+st.subheader("2. Configuração da comparação")
+key_column = st.selectbox("Coluna-chave (pareia as linhas)", cols)
+compare_cols = st.multiselect(
+    "Colunas a comparar",
+    [c for c in cols if c != key_column],
+    default=[c for c in cols if c != key_column],
 )
 
-col1, col2 = st.columns(2)
-with col1:
-    nome = st.text_input("Nome do paciente")
-with col2:
-    data = st.date_input("Data", value=date.today())
+# --- 3. Comparação --------------------------------------------------------
+st.subheader("3. Resultado")
+if st.button("Comparar", type="primary"):
+    result = compare(df_before, df_after, key_column=key_column, columns=compare_cols)
+    st.session_state["result"] = result
+    st.dataframe(result.to_frame())
 
-observacoes = st.text_area("Observações")
+# --- 4. Documento ---------------------------------------------------------
+st.subheader("4. Documento")
+template_file = st.file_uploader("Template (.docx)", type=["docx"], key="template")
+result = st.session_state.get("result")
 
-if st.button("Gerar documento", type="primary", disabled=template_file is None):
-    doc = DocxTemplate(template_file)
-    context = {
-        "nome": nome,
-        "data": data.strftime("%d/%m/%Y"),
-        "observacoes": observacoes,
-    }
-    doc.render(context)
-
-    buffer = io.BytesIO()
-    doc.save(buffer)
-    buffer.seek(0)
-
-    st.success("Documento gerado com sucesso!")
+if st.button("Gerar documento", disabled=not (template_file and result)):
+    context = build_context(result)
+    doc_bytes = render(template_file, context)
     st.download_button(
         "⬇️ Baixar documento",
-        data=buffer,
-        file_name=f"documento_{nome or 'sem_nome'}.docx",
+        data=doc_bytes,
+        file_name="comparacao.docx",
         mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
     )
