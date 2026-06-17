@@ -45,10 +45,13 @@ SRC_METRIC_INI_COL = {"KOD": 4, "E-level": 7, "Shape": 10}
 
 # Colunas de evolução no template (após remover a col A): KOD, E-level, Shape.
 EVOLUTION_COLS = (5, 8, 11)
-# Cores da evolução: verde (>0), vermelho (<0), branco (=0).
-FILL_POS = PatternFill("solid", fgColor="C6EFCE")  # verde
-FILL_NEG = PatternFill("solid", fgColor="FFC7CE")  # vermelho
-FILL_ZERO = PatternFill("solid", fgColor="FFFFFF")  # branco
+# Última coluna útil (Evolução Shape); o que vier à direita é lixo da fonte.
+LAST_COL = 11
+# Cores da evolução: verde (>0), vermelho (<0), branco (=0). ARGB opaco em
+# start_color E end_color — a formatação condicional usa o bgColor (end_color).
+FILL_POS = PatternFill(start_color="FFC6EFCE", end_color="FFC6EFCE", fill_type="solid")  # verde
+FILL_NEG = PatternFill(start_color="FFFFC7CE", end_color="FFFFC7CE", fill_type="solid")  # vermelho
+FILL_ZERO = PatternFill(start_color="FFFFFFFF", end_color="FFFFFFFF", fill_type="solid")  # branco
 
 
 def build(source: Path = DEFAULT_SOURCE, output: Path = OUTPUT) -> Path:
@@ -97,6 +100,11 @@ def build(source: Path = DEFAULT_SOURCE, output: Path = OUTPUT) -> Path:
             start_column=min_col - 1, start_row=min_row,
             end_column=max_col - 1, end_row=max_row,
         )
+
+    # Remove colunas à direita de "Evolução Shape" (notas/realces da equipe que
+    # sobraram da fonte, ex.: realce amarelo na coluna de anotações).
+    if ws.max_column > LAST_COL:
+        ws.delete_cols(LAST_COL + 1, ws.max_column - LAST_COL)
 
     # Colunas após remover A: A=Sistema, B=Item, C..K = métricas (3 grupos de 3).
     # Datas dos períodos sob cada par início/final (KOD C/D, E-level F/G, Shape I/J).
