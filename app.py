@@ -14,12 +14,15 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 
+from before_after.context import build_context
 from before_after.correspondence import prepare
 from before_after.loaders import load_correspondence, load_table
-from before_after.models import METRICS
+from before_after.models import METRICS, evolucao
 from before_after.pairing import build_pairs
+from before_after.rendering import render
 
 CORRESPONDENCE_PATH = Path(__file__).parent / "data" / "correspondencia.json"
+TEMPLATE_PATH = Path(__file__).parent / "templates" / "comparativo.xlsx"
 
 st.set_page_config(page_title="Início / Final", page_icon="📊", layout="wide")
 st.title("📊 Comparador Início / Final")
@@ -33,7 +36,7 @@ def pairs_to_frame(pairs) -> pd.DataFrame:
         for m in METRICS:
             row[f"{m} início"] = p.inicio[m]
             row[f"{m} final"] = p.final[m]
-            row[f"{m} evolução"] = p.final[m] - p.inicio[m]
+            row[f"{m} evolução"] = evolucao(m, p.inicio[m], p.final[m])
         rows.append(row)
     return pd.DataFrame(rows)
 
@@ -81,4 +84,18 @@ st.dataframe(pairs_to_frame(result.pairs), use_container_width=True, hide_index=
 
 # --- 4. Documento ---------------------------------------------------------
 st.subheader("4. Documento")
-st.info("Geração do documento (formato da aba Comparativo) — próxima etapa.")
+
+context = build_context(result)
+rendered = render(str(TEMPLATE_PATH), context)
+
+st.download_button(
+    "📥 Baixar documento (.xlsx)",
+    data=rendered.data,
+    file_name="comparativo.xlsx",
+    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+)
+
+if rendered.sem_dados:
+    st.caption(f"Itens do template sem dados nos períodos: {rendered.sem_dados}")
+if rendered.nao_colocados:
+    st.warning(f"Itens calculados sem linha no template: {rendered.nao_colocados}")
