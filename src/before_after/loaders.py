@@ -45,9 +45,3 @@ def load_correspondence(source: str | IO[bytes]) -> dict:
     if isinstance(source, str):
         return json.loads(Path(source).read_text(encoding="utf-8"))
     return json.load(source)
-
-
-def common_columns(before: pd.DataFrame, after: pd.DataFrame) -> list[str]:
-    """Colunas presentes nas duas planilhas, preservando a ordem do 'antes'."""
-    after_cols = set(after.columns)
-    return [c for c in before.columns if c in after_cols]
