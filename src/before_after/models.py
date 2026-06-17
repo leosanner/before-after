@@ -13,6 +13,22 @@ from dataclasses import dataclass, field
 
 import pandas as pd
 
+# Métricas comparadas por item (colunas numéricas da entrada do Oberon).
+METRICS = ["KOD", "E-level", "Shape"]
+
+
+@dataclass
+class ItemPair:
+    """Um item pareado entre os dois períodos.
+
+    `inicio` e `final` carregam as métricas (KOD, E-level, Shape) de cada período.
+    A evolução (final - início) é derivada na etapa de contexto/documento.
+    """
+
+    nome: str
+    inicio: dict
+    final: dict
+
 
 @dataclass
 class ColumnDiff:
