@@ -17,11 +17,14 @@ Rode quando o layout de referência mudar:
 
 from __future__ import annotations
 
-import datetime as dt
 import sys
 from pathlib import Path
 
 import openpyxl
+from openpyxl.formatting.formatting import ConditionalFormattingList
+from openpyxl.formatting.rule import CellIsRule
+from openpyxl.styles import PatternFill
+from openpyxl.utils import get_column_letter
 
 ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_SOURCE = ROOT / "tmp" / "conteudo_basico.xlsx"
@@ -39,6 +42,13 @@ DATE_CELLS_SOURCE = ("D2", "E2")  # início, final
 # Coluna do nome do item e da célula "início" de cada métrica, na fonte.
 SRC_ITEM_COL = 3
 SRC_METRIC_INI_COL = {"KOD": 4, "E-level": 7, "Shape": 10}
+
+# Colunas de evolução no template (após remover a col A): KOD, E-level, Shape.
+EVOLUTION_COLS = (5, 8, 11)
+# Cores da evolução: verde (>0), vermelho (<0), branco (=0).
+FILL_POS = PatternFill("solid", fgColor="C6EFCE")  # verde
+FILL_NEG = PatternFill("solid", fgColor="FFC7CE")  # vermelho
+FILL_ZERO = PatternFill("solid", fgColor="FFFFFF")  # branco
 
 
 def build(source: Path = DEFAULT_SOURCE, output: Path = OUTPUT) -> Path:
@@ -98,6 +108,16 @@ def build(source: Path = DEFAULT_SOURCE, output: Path = OUTPUT) -> Path:
     for row in range(FIRST_DATA_ROW, last_data_row + 1):
         for col in range(3, 12):
             ws.cell(row, col).value = None
+
+    # Formatação condicional das colunas de evolução: verde/vermelho/branco.
+    # Zera a CF herdada da fonte (desalinhada pelo delete_cols) antes de aplicar.
+    ws.conditional_formatting = ConditionalFormattingList()
+    for col in EVOLUTION_COLS:
+        letter = get_column_letter(col)
+        rng = f"{letter}{FIRST_DATA_ROW}:{letter}{last_data_row}"
+        ws.conditional_formatting.add(rng, CellIsRule(operator="greaterThan", formula=["0"], fill=FILL_POS))
+        ws.conditional_formatting.add(rng, CellIsRule(operator="lessThan", formula=["0"], fill=FILL_NEG))
+        ws.conditional_formatting.add(rng, CellIsRule(operator="equal", formula=["0"], fill=FILL_ZERO))
 
     # Aba oculta com a aplicabilidade: linha | KOD | E-level | Shape (1/0).
     mask_ws = wb.create_sheet(MASK_SHEET)
