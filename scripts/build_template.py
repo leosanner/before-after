@@ -85,10 +85,21 @@ def build(source: Path = DEFAULT_SOURCE, output: Path = OUTPUT) -> Path:
         if ws.cell(row, SRC_ITEM_COL).value is not None
     }
 
-    # Guarda as mesclagens para recriá-las deslocadas (delete_cols não as ajusta).
+    # Guarda mesclagens e larguras de coluna para deslocá-las (delete_cols não
+    # ajusta nenhuma das duas: o conteúdo move, esses metadados não).
     old_merges = [(m.min_col, m.min_row, m.max_col, m.max_row) for m in ws.merged_cells.ranges]
+    old_widths = {
+        c: ws.column_dimensions[get_column_letter(c)].width
+        for c in range(1, ws.max_column + 1)
+    }
 
     ws.delete_cols(1)  # remove a coluna "Item Oberon"; valores/estilos deslocam, mesclagens não.
+
+    # Desloca as larguras −1: a coluna nova `c` herda a largura da antiga `c+1`.
+    for c in range(1, ws.max_column + 1):
+        largura = old_widths.get(c + 1)
+        if largura is not None:
+            ws.column_dimensions[get_column_letter(c)].width = largura
 
     # Descarta as mesclagens (agora desalinhadas) direto na coleção: `unmerge_cells`
     # apagaria valores já deslocados que caem sob uma mesclagem estale (ex.: E1).
