@@ -72,3 +72,17 @@ def test_render_preenche_template_e_espelha_brancos():
     # Aplicabilidade: Medula óssea sem KOD (r81) fica vazia; com KOD (r96) preenche.
     assert ws.cell(81, 2).value == "Medula óssea" and ws.cell(81, 3).value is None
     assert ws.cell(96, 2).value == "Medula óssea" and ws.cell(96, 3).value is not None
+
+
+def test_render_filtra_bloco_reprodutor_por_sistema():
+    context = build_context(_pipeline())
+    out = render(str(TEMPLATE), context, keep_systems={"Reprodutor Masculino"})
+
+    wb = openpyxl.load_workbook(io.BytesIO(out.data))
+    ws = wb.active
+    sistemas = {ws.cell(row, 1).value for row in range(1, ws.max_row + 1)}
+
+    assert "Reprodutor Masculino" in sistemas
+    assert "Reprodutor Feminino" not in sistemas
+    assert "Pénis" in {ws.cell(row, 2).value for row in range(1, ws.max_row + 1)}
+    assert "Colo de útero" not in {ws.cell(row, 2).value for row in range(1, ws.max_row + 1)}
