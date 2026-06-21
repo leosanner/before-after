@@ -5,10 +5,12 @@ from pathlib import Path
 from zipfile import ZipFile
 
 import openpyxl
+from streamlit.testing.v1 import AppTest
 
 from before_after import __version__
 from before_after.context import build_context
 from before_after.correspondence import prepare
+from before_after.filenames import comparative_filename
 from before_after.loaders import load_correspondence, load_table
 from before_after.models import METRICS, evolucao
 from before_after.pairing import build_pairs
@@ -28,6 +30,25 @@ def _pipeline():
 
 def test_version():
     assert __version__
+
+
+def test_nome_do_arquivo_inclui_paciente_e_remove_caracteres_invalidos():
+    assert comparative_filename("  Maria da Conceição  ") == (
+        "Quadro comparativo - Maria da Conceição.xlsx"
+    )
+    assert comparative_filename('Ana / Paula: "Teste"') == (
+        "Quadro comparativo - Ana - Paula - Teste.xlsx"
+    )
+    assert comparative_filename("   ") == "Quadro comparativo.xlsx"
+
+
+def test_app_exibe_campo_de_nome_do_paciente():
+    app = AppTest.from_file(str(ROOT / "app.py")).run()
+
+    assert not list(app.exception)
+    assert app.text_input[0].label == "Nome do paciente"
+    app.text_input[0].set_value("Maria da Conceição").run()
+    assert app.text_input[0].value == "Maria da Conceição"
 
 
 def test_pipeline_pareia_inicio_e_final():
