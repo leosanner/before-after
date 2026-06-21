@@ -16,6 +16,7 @@ import streamlit as st
 
 from before_after.context import build_context
 from before_after.correspondence import prepare
+from before_after.filenames import comparative_filename
 from before_after.loaders import load_correspondence, load_table
 from before_after.models import METRICS, evolucao
 from before_after.pairing import build_pairs
@@ -47,6 +48,10 @@ def pairs_to_frame(pairs) -> pd.DataFrame:
 
 # --- 1. Upload ------------------------------------------------------------
 st.subheader("1. Planilhas")
+patient_name = st.text_input(
+    "Nome do paciente",
+    placeholder="Ex.: Maria da Silva",
+)
 sexo = st.radio(
     "Sexo para o bloco reprodutor do documento",
     options=list(REPRODUCTIVE_SYSTEMS),
@@ -102,7 +107,7 @@ rendered = render(str(TEMPLATE_PATH), context, keep_systems={reproductive_system
 st.download_button(
     "📥 Baixar documento (.xlsx)",
     data=rendered.data,
-    file_name="comparativo.xlsx",
+    file_name=comparative_filename(patient_name),
     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
 )
 
