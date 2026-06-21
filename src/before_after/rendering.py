@@ -104,7 +104,9 @@ def render(
     `template` aceita caminho ou file-like. Itens com nome repetido no template
     (ex.: "Medula óssea", "Bexiga") recebem o mesmo valor em todas as linhas.
     """
-    wb = openpyxl.load_workbook(template)
+    # O template não usa fórmulas externas. Descartar links herdados da
+    # planilha-fonte evita que o Excel tente reparar caches externos obsoletos.
+    wb = openpyxl.load_workbook(template, keep_links=False)
     mask = _load_mask(wb)
     if MASK_SHEET in wb.sheetnames:
         del wb[MASK_SHEET]  # mantém o documento final só com a aba visível

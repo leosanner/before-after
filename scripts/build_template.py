@@ -55,7 +55,9 @@ FILL_ZERO = PatternFill(start_color="FFFFFFFF", end_color="FFFFFFFF", fill_type=
 
 
 def build(source: Path = DEFAULT_SOURCE, output: Path = OUTPUT) -> Path:
-    wb = openpyxl.load_workbook(source)
+    # O template final é independente da planilha-fonte. Não preserve links
+    # externos nem seus valores em cache, que podem disparar reparo no Excel.
+    wb = openpyxl.load_workbook(source, keep_links=False)
     ws = wb[SHEET]
 
     # Mantém só a aba Comparativo (o template é independente da Original).

@@ -2,6 +2,7 @@
 
 import io
 from pathlib import Path
+from zipfile import ZipFile
 
 import openpyxl
 
@@ -72,6 +73,17 @@ def test_render_preenche_template_e_espelha_brancos():
     # Aplicabilidade: Medula óssea sem KOD (r81) fica vazia; com KOD (r96) preenche.
     assert ws.cell(81, 2).value == "Medula óssea" and ws.cell(81, 3).value is None
     assert ws.cell(96, 2).value == "Medula óssea" and ws.cell(96, 3).value is not None
+
+
+def test_template_e_render_nao_contem_referencias_externas():
+    context = build_context(_pipeline())
+    out = render(str(TEMPLATE), context)
+
+    for workbook in (TEMPLATE, io.BytesIO(out.data)):
+        with ZipFile(workbook) as archive:
+            assert not any(
+                name.startswith("xl/externalLinks/") for name in archive.namelist()
+            )
 
 
 def test_render_filtra_bloco_reprodutor_por_sistema():
