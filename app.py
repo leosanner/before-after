@@ -23,6 +23,10 @@ from before_after.rendering import render
 
 CORRESPONDENCE_PATH = Path(__file__).parent / "data" / "correspondencia.json"
 TEMPLATE_PATH = Path(__file__).parent / "templates" / "comparativo.xlsx"
+REPRODUCTIVE_SYSTEMS = {
+    "Masculino": "Reprodutor Masculino",
+    "Feminino": "Reprodutor Feminino",
+}
 
 st.set_page_config(page_title="Início / Final", page_icon="📊", layout="wide")
 st.title("📊 Comparador Início / Final")
@@ -43,6 +47,13 @@ def pairs_to_frame(pairs) -> pd.DataFrame:
 
 # --- 1. Upload ------------------------------------------------------------
 st.subheader("1. Planilhas")
+sexo = st.radio(
+    "Sexo para o bloco reprodutor do documento",
+    options=list(REPRODUCTIVE_SYSTEMS),
+    horizontal=True,
+)
+reproductive_system = REPRODUCTIVE_SYSTEMS[sexo]
+
 col_ini, col_fim = st.columns(2)
 with col_ini:
     file_ini = st.file_uploader("INÍCIO (.xlsx ou .csv)", type=["xlsx", "csv"], key="inicio")
@@ -80,13 +91,13 @@ if result.only_in_inicio:
 if result.only_in_final:
     st.warning(f"Só no final: {result.only_in_final}")
 
-st.dataframe(pairs_to_frame(result.pairs), use_container_width=True, hide_index=True)
+st.dataframe(pairs_to_frame(result.pairs), width="stretch", hide_index=True)
 
 # --- 4. Documento ---------------------------------------------------------
 st.subheader("4. Documento")
 
 context = build_context(result)
-rendered = render(str(TEMPLATE_PATH), context)
+rendered = render(str(TEMPLATE_PATH), context, keep_systems={reproductive_system})
 
 st.download_button(
     "📥 Baixar documento (.xlsx)",
