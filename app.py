@@ -70,8 +70,11 @@ if not (file_ini and file_fim):
     st.stop()
 
 mapping = load_correspondence(str(CORRESPONDENCE_PATH))
-ini = prepare(load_table(file_ini, filename=file_ini.name), mapping)
-fim = prepare(load_table(file_fim, filename=file_fim.name), mapping)
+table_ini = load_table(file_ini, filename=file_ini.name)
+table_fim = load_table(file_fim, filename=file_fim.name)
+period_values = (table_ini.iat[0, 0], table_fim.iat[0, 0])
+ini = prepare(table_ini, mapping)
+fim = prepare(table_fim, mapping)
 
 # --- 2. Tratamento --------------------------------------------------------
 st.subheader("2. Correspondência e tratamento")
@@ -102,7 +105,12 @@ st.dataframe(pairs_to_frame(result.pairs), width="stretch", hide_index=True)
 st.subheader("4. Documento")
 
 context = build_context(result)
-rendered = render(str(TEMPLATE_PATH), context, keep_systems={reproductive_system})
+rendered = render(
+    str(TEMPLATE_PATH),
+    context,
+    keep_systems={reproductive_system},
+    period_values=period_values,
+)
 
 st.download_button(
     "📥 Baixar documento (.xlsx)",

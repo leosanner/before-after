@@ -1,6 +1,7 @@
 """Smoke tests: garantem que o pacote importa e o pipeline está conectado."""
 
 import io
+from datetime import datetime
 from pathlib import Path
 from zipfile import ZipFile
 
@@ -94,6 +95,21 @@ def test_render_preenche_template_e_espelha_brancos():
     # Aplicabilidade: Medula óssea sem KOD (r81) fica vazia; com KOD (r96) preenche.
     assert ws.cell(81, 2).value == "Medula óssea" and ws.cell(81, 3).value is None
     assert ws.cell(96, 2).value == "Medula óssea" and ws.cell(96, 3).value is not None
+
+
+def test_render_copia_datas_da_primeira_coluna_das_tabelas():
+    table_ini = load_table(str(DATA / "dados_inicio.xlsx"))
+    table_fim = load_table(str(DATA / "dados_final.xlsx"))
+    table_ini.iat[0, 0] = datetime(2031, 1, 2)
+    table_fim.iat[0, 0] = datetime(2031, 3, 4)
+    period_values = (table_ini.iat[0, 0], table_fim.iat[0, 0])
+
+    out = render(str(TEMPLATE), build_context(_pipeline()), period_values=period_values)
+    ws = openpyxl.load_workbook(io.BytesIO(out.data)).active
+
+    for col in (3, 6, 9):
+        assert ws.cell(2, col).value == period_values[0]
+        assert ws.cell(2, col + 1).value == period_values[1]
 
 
 def test_template_e_render_nao_contem_referencias_externas():
