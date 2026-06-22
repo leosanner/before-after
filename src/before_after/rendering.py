@@ -20,6 +20,7 @@ from .models import METRICS
 # Layout do template (1-based). A=Sistema, B=Item, depois 3 colunas por métrica.
 SYSTEM_COL = 1
 ITEM_COL = 2
+HEADER_ROW = 2
 FIRST_DATA_ROW = 3
 # Coluna inicial (início) de cada métrica; final = +1, evolução = +2.
 METRIC_START_COL = {"KOD": 3, "E-level": 6, "Shape": 9}
@@ -98,11 +99,13 @@ def render(
     context: dict[str, dict[str, dict[str, float]]],
     *,
     keep_systems: set[str] | None = None,
+    period_values: tuple[object, object] | None = None,
 ) -> RenderResult:
     """Preenche o template com o contexto e devolve os bytes do .xlsx.
 
     `template` aceita caminho ou file-like. Itens com nome repetido no template
     (ex.: "Medula óssea", "Bexiga") recebem o mesmo valor em todas as linhas.
+    `period_values` é copiado diretamente para os cabeçalhos início/final.
     """
     # O template não usa fórmulas externas. Descartar links herdados da
     # planilha-fonte evita que o Excel tente reparar caches externos obsoletos.
@@ -111,6 +114,11 @@ def render(
     if MASK_SHEET in wb.sheetnames:
         del wb[MASK_SHEET]  # mantém o documento final só com a aba visível
     ws = wb.active
+    if period_values is not None:
+        inicio, final = period_values
+        for col in METRIC_START_COL.values():
+            ws.cell(HEADER_ROW, col).value = inicio
+            ws.cell(HEADER_ROW, col + 1).value = final
     systems_by_row = _row_systems(ws)
     rows_to_delete = []
     if keep_systems is not None:
